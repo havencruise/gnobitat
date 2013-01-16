@@ -10,6 +10,7 @@ $(function(){
 
     window.app = document.getElementById('app');
     window.video = document.getElementById('monitor');
+    window.red_button = document.getElementById('red-button');
     window.canvas = document.getElementById('photo');
     window.effect = document.getElementById('effect');
     window.gallery = document.getElementById('gallery');
@@ -27,9 +28,11 @@ $(function(){
       'invert',
       ''
     ];
+    window.initialized = false;
   } else {
     alert('Audio and video capture is not supported in your browser');
   }
+  addTwitter();
 });
 
 function changeFilter(el) {
@@ -54,6 +57,7 @@ function gotStream(stream) {
   stream.onended = noStream;
 
   video.onloadedmetadata = function(e) { // Not firing in Chrome. See crbug.com/110938.
+    button.textContext = 'Take Snapshot';
     document.getElementById('splash').hidden = true;
     document.getElementById('app').hidden = false;
   };
@@ -73,19 +77,22 @@ function noStream(e) {
   if (e.code == 1) {
     msg = 'User denied access to use camera.';
   }
-  document.getElementById('errorMessage').textContent = msg;
+  $('#errorMessage .default').hide();
+  red_button.disabled = true;
+  var $error_message = $('<span>'+msg+'</span>');
+  $('#errorMessage').append($error_message);
+  setTimeout(function(){
+    $error_message.remove();
+    $('#errorMessage .default').show();
+    red_button.disabled = false;
+  }, 5000);
 }
 
 function capture() {
-  if (intervalId) {
-    clearInterval(intervalId);
-    intervalId = null;
-    return;
-  }
-  intervalId = setTimeout(function() {
+
     ctx.drawImage(video, 0, 0);
     var img = document.createElement('img');
-    img.src = canvas.toDataURL('image/webp');
+    img.src = canvas.toDataURL('image/png');
 
     var angle = Math.floor(Math.random() * 36);
     var sign = Math.floor(Math.random() * 2) ? 1 : -1;
@@ -98,16 +105,29 @@ function capture() {
     img.style.left = Math.floor(Math.random() * maxLeft) + 'px';
 
     gallery.appendChild(img);
-  }, 150);
+
 }
+
+
+function addTwitter(){
+  setTimeout(function(){
+    $('body').append('<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>');
+  }, 300)
+}
+
+function play(){
+  video.play()
+}
+
 
 function init(el) {
   if (!navigator.getUserMedia) {
     document.getElementById('errorMessage').innerHTML = 'Sorry. <code>navigator.getUserMedia()</code> is not available.';
     return;
   }
-  el.onclick = capture;
-  el.textContent = 'Snapshot';
+  if(initialized){
+    el.onclick = capture;
+  }
   navigator.getUserMedia({video: true}, gotStream, noStream);
 }
 

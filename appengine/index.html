@@ -17,15 +17,15 @@
 <!-- video stuff -->
 
 <section id="app" hidden>
-    <div class="container">
-        <video id="monitor" autoplay onclick="changeFilter(this)" title="Click me to see different filters"></video>
-    </div>
-  <p>Click the video to see different CSS filters</p>
+    <video id="monitor" autoplay onclick="changeFilter(this)" title="Click me to see different filters"></video>
+    <p>Click the video to see different CSS filters</p>
 </section>
-<p><button onclick="init(this)">Capture</button></p>
+<p> <button class="btn" id="red-button" onclick="init(this)">Capture</button> </p>
 
 <div id="splash">
-  <p id="errorMessage">&uarr;<br>Click to begin</p>
+    <p id="errorMessage">
+        <span class="default">&uarr;<br>Click to begin</span>
+    </p>
 </div>
 
 <div id="gallery"></div>
@@ -33,9 +33,15 @@
 <canvas id="photo" style="display:none"></canvas>
 
 <!-- video stuff -->
-
         </div>
     </div>
-    <div id="footer"></div>
+    <div id="footer">
+        <ul class="social">
+            <li class='twitter'>
+                <a href="https://twitter.com/havencruise" class="twitter-follow-button" data-show-count="false" data-lang="en" data-size="small">Follow @havencruise</a>
+            </li>
+            <li class='github'><a href="https://github.com/havencruise">on github</a></li>
+        </ul>
+    </div>
 </body>
 </html>
