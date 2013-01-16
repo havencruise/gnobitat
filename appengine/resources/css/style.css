@@ -1,0 +1,64 @@
+html, body {
+    height: 100%;
+}
+body{
+	background: url('../images/checkers-dark.jpg');
+	min-height: 100%;
+}
+
+#logo {
+	display: block; border: 0; padding: 0 0 0 90px;
+	background:url('../images/video.png') no-repeat left center;
+	text-align: center; line-height: 80px; direction: ltr; height: 90px;
+	position: fixed; top: 10px; margin: 0 0 0 10px;
+}
+
+#body{
+	min-height: 100%;
+	background: url('../images/checkers.png');
+	-webkit-box-shadow: 1px 1px 10px #ccc;
+	-moz-box-shadow: 1px 1px 10px #ccc;
+	-ms-box-shadow: 1px 1px 10px #ccc;
+	-o-box-shadow: 1px 1px 10px #ccc;
+	box-shadow: 1px 1px 10px #ccc;
+}
+
+.video-container{
+	margin-top: 100px; padding: 10px;
+	text-align: center;
+}
+
+.video{
+	height: 400px;
+}
+
+.blur {
+  -webkit-filter: blur(3px);
+}
+.brightness {
+  -webkit-filter: brightness(5);
+}
+.contrast {
+  -webkit-filter: contrast(8);
+}
+.hue-rotate {
+  -webkit-filter: hue-rotate(90deg);
+}
+.hue-rotate2 {
+  -webkit-filter: hue-rotate(180deg);
+}
+.hue-rotate3 {
+  -webkit-filter: hue-rotate(270deg);
+}
+.saturate {
+  -webkit-filter: saturate(10);
+}
+.grayscale {
+  -webkit-filter: grayscale(1);
+}
+.sepia {
+  -webkit-filter: sepia(1);
+}
+.invert {
+  -webkit-filter: invert(1)
+}

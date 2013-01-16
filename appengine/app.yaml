@@ -1,0 +1,22 @@
+application: gnobitat
+version: 1
+runtime: python27
+threadsafe: no
+api_version: 1
+
+handlers:
+- url: /static
+  static_dir: resources
+
+- url: /images
+  static_dir: resources/img 
+  
+- url: /js
+  static_dir: resources/js
+  
+- url: /css
+  static_dir: resources/css
+  
+- url: /.*
+  script: main.app
+  

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <title>gnobitat</title>
+    <script src="/_ah/channel/jsapi"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+</head>
+<body>
+    <div id="body" class="container ">
+        <h1 id="logo">gnobitat</h1>
+        <div class="video-container">
+
+<!-- video stuff -->
+
+<section id="app" hidden>
+    <div class="container">
+        <video id="monitor" autoplay onclick="changeFilter(this)" title="Click me to see different filters"></video>
+    </div>
+  <p>Click the video to see different CSS filters</p>
+</section>
+<p><button onclick="init(this)">Capture</button></p>
+
+<div id="splash">
+  <p id="errorMessage">&uarr;<br>Click to begin</p>
+</div>
+
+<div id="gallery"></div>
+
+<canvas id="photo" style="display:none"></canvas>
+
+<!-- video stuff -->
+
+        </div>
+    </div>
+    <div id="footer"></div>
+</body>
+</html>
