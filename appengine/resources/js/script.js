@@ -95,17 +95,16 @@ function noStream(e) {
 function capture() {
   if(localMediaStream){
     ctx.drawImage(video, 0, 0);
-    var img = document.createElement('img');
-    img.src = canvas.toDataURL('image/webp');
+    var $img = $('<img height="80" />');
+    $img.attr('src', canvas.toDataURL('image/webp'));
     var angle = Math.floor(Math.random() * 36);
     var sign = Math.floor(Math.random() * 2) ? 1 : -1;
-    img.style.webkitTransform = 'rotateZ(' + (sign * angle) + 'deg)';
-    var maxLeft = document.body.clientWidth;
-    var maxTop = document.body.clientHeight;
-    img.style.top = Math.floor(Math.random() * maxTop) + 'px';
-    img.style.left = Math.floor(Math.random() * maxLeft) + 'px';
-
-    gallery.appendChild(img);
+    $img.css('webkitTransform', 'rotateZ(' + (sign * angle) + 'deg)');
+    var maxLeft = $('#gallery').width();
+    var maxTop = $('#gallery').height();
+    $img.css('top', Math.floor(Math.random() * maxTop) + 'px');
+    $img.css('left', Math.floor(Math.random() * maxLeft) + 'px')
+    $('#gallery').append($img);
   }
 }
 
