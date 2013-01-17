@@ -3,31 +3,43 @@ function hasGetUserMedia() {
   return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia || navigator.msGetUserMedia);
 }
+var gnobitat = {
+  app : null,
+  video : null,
+  canvas : null,
+  effect : null,
+  gallery : null,
+  ctx : null,
+  intervalId : null,
+  locationMediaStream : null,
+  idx : null,
+  filters : [
+    'grayscale',
+    'sepia',
+    'blur',
+    'brightness',
+    'contrast',
+    'hue-rotate', 'hue-rotate2', 'hue-rotate3',
+    'saturate',
+    'invert',
+    ''
+  ]
+}
 $(function(){
   if (hasGetUserMedia()) {
-    navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia || navigator.msGetUserMedia;
     window.URL = window.URL || window.webkitURL;
 
-    window.app = document.getElementById('app');
-    window.video = document.getElementById('monitor');
-    window.canvas = document.getElementById('photo');
-    window.effect = document.getElementById('effect');
-    window.gallery = document.getElementById('gallery');
-    window.ctx = canvas.getContext('2d');
-    window.intervalId = null;
-    window.localMediaStream = null;
-    window.idx = 0;
-    window.filters = [
-      'grayscale',
-      'sepia',
-      'blur',
-      'brightness',
-      'contrast',
-      'hue-rotate', 'hue-rotate2', 'hue-rotate3',
-      'saturate',
-      'invert',
-      ''
-    ];
+    gnobitat.app = document.getElementById('app');
+    gnobitat.video = document.getElementById('monitor');
+    gnobitat.canvas = document.getElementById('photo');
+    gnobitat.effect = document.getElementById('effect');
+    gnobitat.gallery = document.getElementById('gallery');
+    gnobitat.ctx = gnobitat.canvas.getContext('2d');
+    gnobitat.intervalId = null;
+    gnobitat.localMediaStream = null;
+    gnobitat.idx = 0;
   } else {
     alert('Audio and video capture is not supported in your browser');
   }
@@ -36,7 +48,7 @@ $(function(){
 
 function changeFilter(el) {
   el.className = '';
-  var effect = filters[idx++ % filters.length];
+  var effect = gnobitat.filters[gnobitat.idx++ % gnobitat.filters.length];
   if (effect) {
     el.classList.add(effect);
   }
@@ -44,36 +56,29 @@ function changeFilter(el) {
 
 function gotStream(stream) {
   if (window.URL) {
-    video.src = window.URL.createObjectURL(stream);
+    gnobitat.video.src = window.URL.createObjectURL(stream);
   } else {
-    video.src = stream; // Opera.
+    gnobitat.video.src = stream; // Opera.
   }
-  localMediaStream = stream; 
+  gnobitat.localMediaStream = stream; 
 
-  video.onerror = function(e) {
+  gnobitat.video.onerror = function(e) {
     stream.stop();
   };
 
   stream.onended = noStream;
 
-  video.addEventListener('loadedmetadata',function(e) { // Not firing in Chrome. See crbug.com/110938.
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+  gnobitat.video.addEventListener('loadedmetadata',function(e) { 
+    gnobitat.canvas.width = gnobitat.video.videoWidth;
+    gnobitat.canvas.height = gnobitat.video.videoHeight;
     document.getElementById('splash').hidden = true;
-    document.getElementById('app').hidden = false;
+    gnobitat.app.hidden = false;
     $('#red-button').text('Take Snapshot');
   });
 
   // Since video.onloadedmetadata isn't firing for getUserMedia video, we have
   // to fake it.
   // UPDATE: no need to fake it anymore with the event listener added
-  // setTimeout(function() {
-  //   canvas.width = video.videoWidth;
-  //   canvas.height = video.videoHeight;
-  //   document.getElementById('splash').hidden = true;
-  //   document.getElementById('app').hidden = false;
-  //   $('#red-button').text('Take Snapshot');
-  // }, 200);
 }
 
 function noStream(e) {
@@ -93,10 +98,10 @@ function noStream(e) {
 }
 
 function capture() {
-  if(localMediaStream){
-    ctx.drawImage(video, 0, 0);
+  if(gnobitat.localMediaStream){
+    gnobitat.ctx.drawImage(gnobitat.video, 0, 0);
     var $img = $('<img height="80" />');
-    $img.attr('src', canvas.toDataURL('image/webp'));
+    $img.attr('src', gnobitat.canvas.toDataURL('image/webp'));
     var angle = Math.floor(Math.random() * 36);
     var sign = Math.floor(Math.random() * 2) ? 1 : -1;
     $img.css('webkitTransform', 'rotateZ(' + (sign * angle) + 'deg)');
@@ -108,17 +113,11 @@ function capture() {
   }
 }
 
-
 function addTwitter(){
   setTimeout(function(){
     $('body').append('<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>');
   }, 300);
 }
-
-function play(){
-  video.play()
-}
-
 
 function init(el) {
   if (!navigator.getUserMedia) {

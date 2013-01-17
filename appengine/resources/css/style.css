@@ -14,14 +14,14 @@ body{
 
 
 #body{
-	min-height: 99%;
+	min-height: 99%; width: 860px;
+	margin-bottom: 3.5em; margin-left: auto; margin-right: auto;
 	background: url('../images/checkers.png');
 	-webkit-box-shadow: 1px 1px 10px #ccc;
 	-moz-box-shadow: 1px 1px 10px #ccc;
 	-ms-box-shadow: 1px 1px 10px #ccc;
 	-o-box-shadow: 1px 1px 10px #ccc;
 	box-shadow: 1px 1px 10px #ccc;
-	margin-bottom: 3.5em;
 }
 
 .video-container{
